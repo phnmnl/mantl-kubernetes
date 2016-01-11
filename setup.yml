@@ -18,8 +18,8 @@
     - kubernetes-master
     - addons
     - dnsmasq
-    - glusterfs
-    - { role: jgeusebroek.glusterfs, tags: ["glusterfs"] }
+    - { role: glusterfs, tags: ["glusterfs"] }
+    - { role: jgeusebroek.glusterfs, become: True, tags: ["glusterfs"] }
 
 
 # provide the execution plane
@@ -32,5 +32,5 @@
     - kubernetes
     - kubernetes-node
     - dnsmasq
-    - glusterfs
-    - { role: jgeusebroek.glusterfs, tags: ["glusterfs"] }
+    - { role: glusterfs, tags: ["glusterfs"] }
+    - { role: jgeusebroek.glusterfs, become: True, tags: ["glusterfs"] }

@@ -1,30 +1,41 @@
 ---
 # GlusterFS Server side
 - include_vars: server.yml
-  tags:
-    - glusterfs
+
+- debug: 
+     msg: "Brick path {{ item.bricks[0] }}"
+  with_items: '{{ glusterfs_volumes }}' 
 
 - name: create mount point for volumes to be exposed
   sudo: yes
   file:
-          state: directory
-          name: "{{ item.bricks[0] | basename }}"
-          recurse: yes
-          mode: 0755
-  with_items: glusterfs_volumes
-  tags:
-    - glusterfs
+    state: directory
+    name: "{{ item.bricks[0] }}"
+    recurse: yes
+    mode: 0755
+  with_items: '{{ glusterfs_volumes }}'
+
+- name: install xfs support
+  sudo: yes
+  yum: 
+    name: "{{ item }}" 
+    state: latest 
+  with_items:
+    - xfsprogs 
+    - xfsdump
+
+- name: format device as xfs
+  sudo: yes
+  filesystem: fstype=xfs dev=/dev/vdb 
 
 - name: mount device for volume where GlusterFS bricks are created
   sudo: yes
   mount:
     state: mounted
-    name: "{{ item.bricks[0] | basename }}"
+    name: "{{ item.bricks[0] }}"
     opts: "defaults,rw"
-    fstype: glusterfs
+    fstype: xfs 
     src: "/dev/vdb"
-  with_items: glusterfs_volumes
-  tags:
-    - glusterfs
+  with_items: '{{ glusterfs_volumes }}'
 
 

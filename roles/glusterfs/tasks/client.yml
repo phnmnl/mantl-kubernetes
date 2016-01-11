@@ -11,7 +11,7 @@
           name: "{{ item.bricks[0] | basename }}"
           recurse: yes
           mode: 0755
-  with_items: glusterfs_volumes
+  with_items: "{{ glusterfs_volumes }}"
   tags:
     - glusterfs
 

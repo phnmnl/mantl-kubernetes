@@ -17,3 +17,6 @@ glusterfs_install_server: False
 
 # By default, install the client package
 glusterfs_install_client: True
+
+ansible_os_family: "RedHat"
+ansible_distribution: "CentOS"

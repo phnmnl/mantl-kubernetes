@@ -3,13 +3,12 @@
 glusterfs_install_server: True
 glusterfs_volumes:
         - name: scratch
-          cluster: "{% for node in groups['master'] %}{{ hostvars[node][access_ip_v4] }}{% if not loop.last %},{% endif %}{% endfor %}"
-          host: '{{ ansible_fqdn }}'
+          cluster: "{{ groups['master'] | join(',') }}" 
+          host: '{{ ansible_hostname }}'
           options:
-                  auth.allow: "{% for node in groups['node'] %}{{ hostvars[node][access_ip_v4] }}{% if not loop.last %},{% endif %}{% endfor %}"
-                  nfs.diable: 'on'
+#                  auth.allow: "{{ groups['node'] | join(',') }}" 
+                  auth.allow: "192.168.0.*"
+                  nfs.disable: 'on'
+          force: True
           bricks:
                   - /data/glusterfs/scratch/brick1/brick
-          tags:
-                  - glusterfs 
-

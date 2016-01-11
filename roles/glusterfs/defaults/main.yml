@@ -1,4 +1,4 @@
---
+---
 # Use the 'official' glusterfs packages instead of the 'outdated' distro packages
 glusterfs_use_glusterfs_repo: True
 

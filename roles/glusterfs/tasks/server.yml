@@ -1,0 +1,26 @@
+--
+# GlusterFS Server side
+- name: create mount point for volumes to be exposed
+  sudo: yes
+  file:
+          state: directory
+          name: "{{ item.bricks[0] | basename }}"
+          recurse: yes
+          mode: 0755
+  with_items: glusterfs_volumes
+  tags:
+    - glusterfs
+
+- name: mount device for volume where GlusterFS bricks are created
+  sudo: yes
+  mount:
+    state: mounted
+    name: "{{ item.bricks[0] | basename }}"
+    opts: "defaults,rw"
+    fstype: glusterfs
+    src: ""
+  with_items: glusterfs_volumes
+  tags:
+    - glusterfs
+
+

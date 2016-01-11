@@ -1,4 +1,4 @@
---
+---
 # GlusterFS Server side
 - include_vars: server.yml
   tags:

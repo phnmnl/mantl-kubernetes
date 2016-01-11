@@ -1,4 +1,4 @@
---
+---
 glusterfs_mounts:
       - mount_dir: '/mnt/scratch'
         volume: {{ groups['master'][0] }}:scratch

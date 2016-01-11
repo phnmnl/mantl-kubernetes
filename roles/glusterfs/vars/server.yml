@@ -1,4 +1,4 @@
---
+---
 # GlusterFS Server side
 glusterfs_install_server: True
 glusterfs_volumes:

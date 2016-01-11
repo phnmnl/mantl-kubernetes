@@ -1,5 +1,9 @@
 --
 # GlusterFS Client side
+- include_vars: client.yml
+  tags:
+    - glusterfs
+
 - name: create mount point for glusterfs volumes
   sudo: yes
   file:

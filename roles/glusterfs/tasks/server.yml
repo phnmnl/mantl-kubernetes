@@ -1,5 +1,9 @@
 --
 # GlusterFS Server side
+- include_vars: server.yml
+  tags:
+    - glusterfs
+
 - name: create mount point for volumes to be exposed
   sudo: yes
   file:
@@ -18,7 +22,7 @@
     name: "{{ item.bricks[0] | basename }}"
     opts: "defaults,rw"
     fstype: glusterfs
-    src: ""
+    src: "/dev/vdb"
   with_items: glusterfs_volumes
   tags:
     - glusterfs

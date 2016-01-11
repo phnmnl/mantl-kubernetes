@@ -2,9 +2,13 @@
 {% if 'master' in group_names %}
    # something that applies to all app servers.
    - include: server.yml
+     tags:
+      - glusterfs
 {% endif %}
 
 {% if 'node' in group_names %}
    # something that applies to all app servers.
    - include: client.yml
+     tags:
+      - glusterfs
 {% endif %}

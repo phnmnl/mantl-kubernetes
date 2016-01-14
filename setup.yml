@@ -20,6 +20,7 @@
     - dnsmasq
     - { role: glusterfs, tags: ["glusterfs"] }
     - { role: jgeusebroek.glusterfs, become: True, tags: ["glusterfs"] }
+    - { role: k8s-containers-glusterfs, tags: ["glusterfs"] }
 
 
 # provide the execution plane

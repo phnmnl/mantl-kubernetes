@@ -33,3 +33,4 @@
     - kubernetes
     - kubernetes-node
     - dnsmasq
+    - ext-docker-registry

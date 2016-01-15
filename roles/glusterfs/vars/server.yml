@@ -6,8 +6,6 @@ glusterfs_volumes:
           cluster: "{{ groups['master'] | join(',') }}" 
           host: '{{ ansible_hostname }}'
           options:
-#                  auth.allow: "{{ groups['node'] | join(',') }}" 
-                  auth.allow: "192.168.0.*"
                   nfs.disable: 'on'
           force: True
           bricks:

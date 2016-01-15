@@ -8,7 +8,7 @@
     {
       "addresses": [
         {
-          "ip": "{{ hostvars[groups['master'][0]]['ansible_hostname'] }}"
+          "ip": "{{ hostvars[groups['master'][0]].ansible_default_ipv4.address }}"
         }
       ],
       "ports": [

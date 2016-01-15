@@ -33,5 +33,3 @@
     - kubernetes
     - kubernetes-node
     - dnsmasq
-    - { role: glusterfs, tags: ["glusterfs"] }
-    - { role: jgeusebroek.glusterfs, become: True, tags: ["glusterfs"] }

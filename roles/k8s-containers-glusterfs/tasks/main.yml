@@ -11,6 +11,9 @@
 - name: enable endpoint
   sudo: yes
   shell: kubectl create -f "{{ kube_manifest_dir }}/glusterfs-endpoints.json"
+  register: endpoint_creation
+  ignore_errors: yes
+  changed_when: "'created' in endpoint_creation.stdout"
   when: '"first_master" in group_names'
 
 - name: add service configuration for containers to connect to gluster cluster
@@ -24,6 +27,9 @@
 - name: enable service
   sudo: yes
   shell: kubectl create -f "{{ kube_manifest_dir }}/glusterfs-service.json"
+  register: service_creation
+  ignore_errors: yes
+  changed_when: "'created' in service_creation.stdout"
   when: '"first_master" in group_names'
 
 

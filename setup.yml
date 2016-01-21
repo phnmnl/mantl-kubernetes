@@ -30,7 +30,7 @@
   roles:
     - flannel
     - docker
+    - ext-docker-registry
     - kubernetes
     - kubernetes-node
     - dnsmasq
-    - ext-docker-registry

@@ -118,7 +118,7 @@ TBD
 
 ### Prepare environment
 
-There is 3 main roles:
+There are 3 main roles:
  - etcd server
  - kubernetes master
  - kubernetes node (minion)
@@ -347,4 +347,47 @@ When using `FORMAT=json` (default) the output will contain tests *summary* only 
 - Verify NAT settings
 
         sudo iptables -t nat -L -n -v
+
+### PhenoMeNal Additions
+
+#### Add access to insecure docker registry within the same tenancy
+
+Setting the following Ansible variables will configure access on all nodes to an insecure docker registry:
+```
+docker_registry_insecure: true
+docker_registry_ip: 192.168.0.66
+docker_registry_hostname: docker-registry.local
+docker_registry_port: 50000
+```
+These can be set in `group_vars/all.yml`. The set IP needs to be reachable from the nodes of the K8s cluster. 
+
+#### Set up shared filesystem through glusterfs
+
+This is currently not optional and will require the previous installation of an ansible module from the ansible-galaxy repository. The required module can be installed through:
+```
+ansible-galaxy install jgeusebroek.glusterfs
+```
+TODO: it would be probably best to integrate this and avoid the dependency.
+
+This needs to be present in the machine from where ansible-playbook is executed. The GlusterFS volume is called `scratch` and it has bricks in the volumes attached to the k8s master machines. The volume is mounted on containers (and not the nodes, although the nodes need the GlusterFS client), through the addition of the following in the yaml file defining the Pod/Job (some context included, but the relevant parts are `volumeMounts` and `volumes`:
+
+````
+spec:
+      containers:
+      - name: <containerName>
+        image: <registry/author/imageName>
+        args:
+          - "..."
+        volumeMounts:
+          - name: glusterfsvol
+            mountPath: /mnt/glusterfs
+      restartPolicy: Never
+      volumes:
+         - name: glusterfsvol
+           glusterfs:
+               endpoints: glusterfs-cluster
+               path: scratch
+               readOnly: false
+````
+For this to work, a service and an endpoint within the k8s cluster are set through the relevant ansible roles.
 

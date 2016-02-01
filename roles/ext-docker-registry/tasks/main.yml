@@ -1,0 +1,40 @@
+---
+- name: remove any existing insecure entry from docker config file
+  sudo: yes
+  lineinfile:
+          dest: /etc/sysconfig/docker
+          regexp: '.*INSECURE_REGISTRY=.*'
+          state: absent
+          backup: yes
+  when: docker_registry_insecure and docker_registry_hostname is defined 
+
+- name: adds an insecure connection for the external docker registry to docker config file
+  sudo: yes
+  lineinfile:
+          dest: /etc/sysconfig/docker
+          line: 'INSECURE_REGISTRY="--insecure-registry={{ docker_registry_hostname }}:{{ docker_registry_port }}"'
+  when: docker_registry_insecure and docker_registry_hostname is defined 
+
+- name: adds docker registry hostname and ip to /etc/hosts
+  sudo: yes
+  lineinfile:
+          dest: /etc/hosts
+          line: '{{ docker_registry_ip }} {{ docker_registry_hostname }}'
+  notify:
+          - restart docker
+  when: docker_registry_insecure and docker_registry_ip is defined 
+
+- name: enable docker daemon
+  sudo: yes
+  service: 
+          name: docker 
+          state: started
+          enabled: yes
+
+
+
+
+
+
+
+

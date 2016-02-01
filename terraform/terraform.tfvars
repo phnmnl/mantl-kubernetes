@@ -19,12 +19,13 @@ datacenter = ""
 glusterfs_volume_size = ""
 ssh_user = "centos"
 short_name = "k8s"
+host_domain = "novalocal"
 
 # If using openstack-floating.sample.tf, set the two variables below
 
 floating_pool = ""
 external_net_id = ""
-subnet_cidr = "10.10.10.0/24"
+subnet_cidr = "10.0.0.0/24"
 
 # If using openstack.sample.tf, set the following
 
